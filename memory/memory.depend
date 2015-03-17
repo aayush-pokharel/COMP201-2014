@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1425689908 source:c:\users\pokharela1\desktop\project\memory\memory\controller.cpp
+	"controller.h"
+
+1425667874 c:\users\pokharela1\desktop\project\memory\memory\controller.h
+	"model.h"
+	"view.h"
+	<vector>
+	<iostream>
+
+1425571053 c:\users\pokharela1\desktop\project\memory\memory\model.h
+	<vector>
+	<iostream>
+
+1425172244 c:\users\pokharela1\desktop\project\memory\memory\view.h
+	<SDL.h>
+	<SDL_image.h>
+	"model.h"
+	<map>
+	<string>
+
+1424186406 source:c:\users\pokharela1\desktop\project\memory\memory\lab4.cpp
+	<iostream>
+	<cstdlib>
+	<ctime>
+
+1425316463 source:c:\users\pokharela1\desktop\project\memory\memory\main.cpp
+	"controller.h"
+
+1425690006 source:c:\users\pokharela1\desktop\project\memory\memory\model.cpp
+	"model.h"
+	<cstdlib>
+	<ctime>
+
+1425238704 source:c:\users\pokharela1\desktop\project\memory\memory\view.cpp
+	"view.h"
+
