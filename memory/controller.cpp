@@ -26,7 +26,8 @@ void Controller::loop() {
         if (SDL_PollEvent(&e) != 0) {
             switch (e.type) {
             case SDL_QUIT:
-                return;
+                model->end();
+                break;
             case SDL_MOUSEBUTTONDOWN:
                 row = e.button.y / 80;
                 column = e.button.x / 80;
@@ -42,24 +43,7 @@ void Controller::loop() {
         }
     }
     view->show(model);
-    SDL_Delay(3000);
+    SDL_Delay(5250);
 }
 
 
-/*
-// Show the board
-// Read in coordinates
-// Until we're done
-void Controller::loop() {
-    int row, col;
-    while (!model->gameOver()) {
-        view->show(model);
-        cout << "Enter row:    ";
-        cin >> row;
-        cout << "Enter column: ";
-        cin >> col;
-        model->flip(row, col);
-    }
-    cout << "Hooray, you win!" << endl;
-}
-*/

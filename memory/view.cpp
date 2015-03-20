@@ -23,20 +23,36 @@ View::View(string title, int width, int height) {
         fail = true;
         return;
     }
-    // Load assets
-    char path[] = "assets/A.png";
-    for (char letter = 'A'; letter <= 'Z'; letter++) {
-        path[7] = letter;
-        letters[letter] = load(path);
+    //Initialize SDL_mixer
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ) {
+        fail = true;
+        return;
     }
-    path[7] = '_';
-    letters['_'] = load(path);
+
+    // Initialize True type fonts
+    if( TTF_Init() == -1 ) {
+        return;
+    }
+
+    // Load assets
+    snake = load("assets/snake.png");
+    music = Mix_LoadMUS("assets/2Inventions_-_Johaness_Gilther_-_Don_t_leave_me.mp3");
+    if (music != NULL) {
+        Mix_PlayMusic( music, -1 );
+    }
+    food = Mix_LoadWAV("assets/yummy.wav");
+    dead = Mix_LoadWAV("assets/nooo.wav");
+    font = TTF_OpenFont( "assets/LiberationSans-Regular.ttf", 28 );
 }
 
 View::~View() {
-    for (std::map<char,SDL_Surface *>::iterator it=letters.begin(); it!=letters.end(); it++) {
-        SDL_FreeSurface(it->second);
-    }
+    TTF_CloseFont( font );
+    TTF_Quit();
+    Mix_FreeMusic(music);
+    Mix_FreeChunk(food);
+    Mix_FreeChunk(dead);
+    SDL_FreeSurface(snake);
+    SDL_FreeSurface(text);
     SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
@@ -70,14 +86,24 @@ void View::show(Model * model) {
     char letter;
     for (int i = 0; i < model->getHeight(); i++) {
         for (int j = 0; j < model->getWidth(); j++) {
-            dest.x = j * 80;
-            dest.y = i * 80;
-            letter = model->get(i, j);
+    if (model->eating()) {
+        Mix_PlayChannel( -1, food, 0 );
+    }
+    if (model->gameOver()) {
+        Mix_PlayChannel( -1, dead, 0 );
+    }
+    
 
             SDL_BlitSurface( letters[letter], NULL, screen, &dest );
         }
     }
 
+    
+    SDL_Color textColor = { 255, 255, 255 };
+    text = TTF_RenderText_Solid( font, "Playing: Johaness Gilther - Don't leave me", textColor );
+    dest.x = 10;
+    dest.y = 730;
+    SDL_BlitSurface( text, NULL, screen, &dest );
     SDL_UpdateWindowSurface(window);
 }
 
